@@ -1,0 +1,40 @@
+<section class="container">
+  <h1>
+    Courses
+    <!-- Admin Create Course -->
+    <app-course-add-btn
+      *ngIf="authService.isAdmin()"
+      [hasSpecialStyle]="true"></app-course-add-btn>
+  </h1>
+
+  <!-- Courses with pagination -->
+  <section
+    *ngIf="courses$ | async as courses"
+    class="row courses-container">
+    <article
+      *ngFor="let course of courses | paginate: {
+      id: 'allCourses',
+      itemsPerPage: pageSize,
+      currentPage: currentPage
+    }"
+      class="card border-info mb-3 course">
+      <!-- Course listing -->
+      <app-course-listing [course]="course"></app-course-listing>
+    </article>
+  </section>
+
+  <!-- pagination controls -->
+  <pagination-controls
+    class="pagination"
+    id="allCourses"
+    (pageChange)="changePage($event)"
+    maxSize="9"
+    directionLink="true"
+    autoHide="true"
+    nextLabel="Next"
+    previousLabel="Previous"
+    screenReaderPagnationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You are on page">
+  </pagination-controls>
+</section>

@@ -1,0 +1,128 @@
+<section class="container">
+  <h1>Create Course</h1>
+
+  <!-- <p>{{courseCreateModel | json}}</p> -->
+
+  <form
+    #createCourseForm="ngForm"
+    (ngSubmit)="create()">
+
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        required
+        id="name"
+        [(ngModel)]="courseCreateModel.name"
+        #name="ngModel"
+        name="name"
+        minlength="4">
+
+      <div
+        [hidden]="name.valid || name.pristine"
+        class="alert alert-dark text-danger">
+        Course name must be at least 4 characters
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        type="text"
+        class="form-control"
+        required
+        id="description"
+        name="description"
+        [(ngModel)]="courseCreateModel.description"
+        #description="ngModel"
+        minlength="4"
+        maxlength="1000"
+        rows="3"></textarea>
+
+      <div
+        [hidden]="description.valid || description.pristine"
+        class="alert alert-dark text-danger">
+        Course description must have between 4 and 1000 characters
+      </div>
+    </div>
+
+    <!-- Start Date -->
+    <div class="form-row">
+      <div class="form-group col-6">
+        <label for="startDate">Start Date</label>
+        <input
+          type="date"
+          class="form-control"
+          required
+          id="startDate"
+          [(ngModel)]="courseCreateModel.startDate"
+          #startDate="ngModel"
+          name="startDate"
+          minlength="4">
+
+        <div
+          [hidden]="startDate.valid || startDate.pristine"
+          class="alert alert-dark text-danger">
+          Please provide a start date
+        </div>
+      </div>
+
+      <!-- End Date -->
+      <div class="form-group col-6">
+        <label for="endDate">End Date</label>
+        <input
+          type="date"
+          class="form-control"
+          required
+          id="endDate"
+          [(ngModel)]="courseCreateModel.endDate"
+          #endDate="ngModel"
+          name="endDate"
+          minlength="4">
+
+        <div
+          [hidden]="endDate.valid || endDate.pristine"
+          class="alert alert-dark text-danger">
+          Please provide an end date after the start date
+        </div>
+      </div>
+    </div>
+
+    <!-- Trainers -->
+    <div
+      class="form-group"
+      *ngIf="allTrainers$ | async as allTrainers">
+      <label for="trainers">Trainers</label>
+      <select
+        required
+        multiple
+        class="form-control"
+        id="trainers"
+        [(ngModel)]="courseCreateModel.trainers"
+        #trainers="ngModel"
+        name="trainers">
+        <option
+          *ngFor="let trainer of allTrainers"
+          [ngValue]="trainer.id">
+          {{trainer.name}} ({{trainer.email}})
+        </option>
+      </select>
+
+      <div
+        [hidden]="trainers.valid || trainers.pristine"
+        class="alert alert-dark text-danger">
+        Please provide a correct trainer
+      </div>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-info"
+      [disabled]="createCourseForm.form.invalid">
+      Create
+    </button>
+  </form>
+</section>

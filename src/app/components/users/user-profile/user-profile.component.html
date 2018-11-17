@@ -1,0 +1,30 @@
+<section class="container">
+  <ng-container *ngIf="user; else noUserTemplate">
+    <h1 class="display-3">My Profile</h1>
+    <hr class="my-4">
+
+    <!-- User Info -->
+    <app-user-info-listing [user]="user"></app-user-info-listing>
+
+    <!-- User Roles -->
+    <app-user-roles-listing [roles]="user.roles"></app-user-roles-listing>
+
+    <!-- User Trainer Courses -->
+    <app-user-courses-listing
+      [title]="'Trainer for:'"
+      [courses]="trainerCourses"></app-user-courses-listing>
+
+    <!-- User Student Courses -->
+    <app-user-courses-listing
+      [title]="'Courses studied:'"
+      [courses]="studentCourses"
+      [isEnrolled]="true"></app-user-courses-listing>
+
+    <!-- User Feedbacks -->
+    <app-user-feedbacks-all [feedbacks]="feedbacks"></app-user-feedbacks-all>
+
+  </ng-container>
+  <ng-template #noUserTemplate>
+    <h1 class="display-3">User not found in database</h1>
+  </ng-template>
+</section>

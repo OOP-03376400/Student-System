@@ -1,0 +1,17 @@
+.courses-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.course {
+  width: 30%;
+  min-width: 350px;
+}
+
+.pagination,
+.ngx-pagination,
+.pagination-next {
+  color: white;
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,54 @@
+<section
+  *ngIf="course"
+  class="container">
+  <!-- Course Enrollement Buttons -->
+  <section>
+    <ng-container *ngIf="isEnrolled$ | async; else notEnrolledTemplate">
+      <!-- Cancel Enrollment Button -->
+      <app-course-enroll-cancel
+        [courseId]="course.id"
+        [hasSpecialStyle]="true"
+        (click)="updateStatus()"></app-course-enroll-cancel>
+    </ng-container>
+    <ng-template #notEnrolledTemplate>
+      <!-- Enroll Button -->
+      <app-course-enroll
+        [courseId]="course.id"
+        [hasSpecialStyle]="true"
+        (click)="updateStatus()"></app-course-enroll>
+    </ng-template>
+  </section>
+
+  <!-- Course Info -->
+  <app-course-info-listing
+    [course]="course"
+    [trainers]="trainers"
+    [isEnrolled$]="isEnrolled$"></app-course-info-listing>
+
+  <!-- Feedbacks -->
+  <section id="course-feedbacks">
+    <h3>
+      Feedbacks
+      <!-- Add Feedback Button -->
+      <app-feedback-add
+        *ngIf="isEnrolled$ | async"
+        [courseId]="course.id"></app-feedback-add>
+    </h3>
+    <!-- Course Feedbacks -->
+    <app-course-feedbacks-all [feedbacks]="feedbacks"></app-course-feedbacks-all>
+  </section>
+
+  <hr>
+  <!-- ADMIN only: Course Edit / Delete -->
+  <section *ngIf="authService.isAdmin()">
+    <h3 class="text-danger text-uppercase admin-actions">
+      Admin Panel
+      <app-course-edit-btn
+        [courseId]="course.id"
+        [hasSpecialStyle]="true"></app-course-edit-btn>
+      <app-course-delete-btn
+        [courseId]="course.id"
+        [hasSpecialStyle]="true"></app-course-delete-btn>
+    </h3>
+  </section>
+</section>
